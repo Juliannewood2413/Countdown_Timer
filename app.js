@@ -1,7 +1,18 @@
+const FULL_DASH_ARRAY = 283;
+const warning_threshold = 10;
+const alert_threshold = 5;
 
 const Color_codes = {
     info: {
         color: 'green'
+    },
+    warning: {
+        color: "orange",
+        threshold: warning_threshold
+    },
+    alert: {
+        color: "red",
+        threshold: alert_threshold
     }
 };
 const Time_limit = 60;
@@ -41,7 +52,13 @@ document.getElementById("app").innerHTML =
 </div>
 
 `;
+
+//When window is open
 startTimer();
+
+function onTimesUp() {
+    clearInterval(timerInterval);
+}
 
 function startTimer() {
     timerInterval = setInterval(() => {
@@ -49,6 +66,14 @@ function startTimer() {
         timeLeft = Time_limit - timePassed;
 
         document.getElementById("base-timer-label").innerHTML= formatTime(timeLeft)
+
+        setCircleDashArray();
+        setRemainingPathColor(timeLeft);
+
+        if (timeLeft === 0){
+            onTimesUp();
+        }
+
     }, 1000)
 }
 
@@ -62,4 +87,31 @@ function formatTime(time) {
     }
 
     return `${minutes} : ${seconds}`;
+}
+
+function setRemainingPathColor(timeLeft) {
+    const {alert, warning, info} = Color_codes;
+    if (timeLeft <= alert.threshold){
+        document.getElementById("base-timer-path-remaining").classList.remove(warning.color);
+        document.getElementById("base-timer-path-remaining").classList.add(alert.color);
+    }else if (timeLeft <= warning.threshold) {
+        document.getElementById("base-timer-path-remaining").classList.remove(info.color);
+        document.getElementById("base-timer-path-remaining").classList.add(warning.color);
+    }
+}
+
+//Divide time left by time limit
+
+function calculateTimeFraction() {
+    const rawTimeFraction = timeLeft / Time_limit;
+    return rawTimeFraction - (1 / Time_limit) * (1 - rawTimeFraction)
+}
+
+//Update dasharray value as time passes
+
+function setCircleDashArray() {
+    const circleDashArray = `${(
+        calculateTimeFraction() * FULL_DASH_ARRAY
+    ).toFixed(0)} 283`;
+    document.getElementById("base-timer-path-remaining").setAttribute("stroke-dasharray", circleDashArray);
 }

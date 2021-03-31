@@ -1,3 +1,4 @@
+/* Body Style */
 body {
   background-image: url("./pokebkgrd.png");
   background-position: center;
@@ -14,6 +15,35 @@ h1 {
   margin-top: 20px;
 }
 
+.base-timer__label {
+  position: absolute;
+  color: whitesmoke;
+  width: 400px;
+  height: 400px;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+}
+
+.base-timer {
+  display: flex;
+  margin: auto;
+}
+
+.base-timer {
+  position: relative;
+  height: 400px;
+  width: 400px;
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+/* Timer Styles */
 .controls {
   position: absolute;
   margin-top: 20px;
@@ -90,6 +120,9 @@ button {
   background-color: red;
 }
 
+/* End Timer Styles */
+
+/* Toggle Switch */
 .switch {
   position: relative;
   display: inline-block;
@@ -130,6 +163,10 @@ button {
   border-radius: 50%;
 }
 
+/* End toggle switch */
+
+/* Time inputs */
+
 input:checked + .slider:before {
   transform: translateX(13px);
 }
@@ -167,37 +204,11 @@ label {
   margin-right: 10px;
 }
 
-.base-timer {
-  display: flex;
-  margin: auto;
-}
-
-.base-timer {
-  position: relative;
-  height: 400px;
-  width: 400px;
-}
-
-.base-timer__circle {
-  fill: none;
-  stroke: none;
-}
+/* End timer inputs */
 
 .base-timer__path-elapsed {
   stroke-width: 7px;
   stroke: grey;
-}
-
-.base-timer__label {
-  position: absolute;
-  color: whitesmoke;
-  width: 400px;
-  height: 400px;
-  top: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 48px;
 }
 
 .base-timer__path-remaining {

@@ -48,13 +48,44 @@ document.getElementById("app").innerHTML =
     </svg>
 
     <span id="base-timer-label" class="base-timer__label">
-    ${formatTime(timeLeft)}
-    </span>
-    </div>
-    <button id="startbtn" type="button" onclick="startTimer()">Start Timer</button>
-
-`;
-
+     <div class="controls">
+          <label class="switch" for="status-toggle">
+            <input checked type="checkbox" name="status-toggle" id="status-toggle" />
+            <span class="slider"></span>
+          </label>
+          <div class="status">Status: <span id="status">Working</span></div>
+          <div class="time">
+            <div id="minutes">20</div>
+            <div id="seconds">00</div>
+          </div>
+          <div class="buttons">
+            <button aria-label="play" id="play">
+              <i class="fa fa-play" aria-hidden="true"></i>
+            </button>
+            <button aria-label="pause" id="pause">
+              <i class="fa fa-pause" aria-hidden="true"></i>
+            </button>
+            <button aria-label="stop" id="stop">
+              <i class="fa fa-stop" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        </span>
+        </div>
+          <div class="inputs">
+        <div class="input-group">
+          <label for="work-minutes">Minutes of Work</label>
+          <input type="number" name="work" id="work-minutes" value="20" />
+        </div>
+        <div class="input-group">
+          <label for="rest-minutes">Minutes of Rest</label>
+          <input type="number" name="rest" id="rest-minutes" value="5" />
+        </div>
+      </div>
+        `;
+        
+        // <button id="startbtn" type="button" onclick="startTimer()">Start Timer</button>
+        // ${formatTime(timeLeft)}
 
 function onTimesUp() {
     clearInterval(timerInterval);

@@ -28,6 +28,7 @@ let remainingPathColor = Color_codes.info.color;
 
 document.getElementById("app").innerHTML =
 `
+<h1>Liam's Countdown Timer</h1>
 <div class="base-timer">
     <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <g class="base-timer__circle">
@@ -49,12 +50,11 @@ document.getElementById("app").innerHTML =
     <span id="base-timer-label" class="base-timer__label">
     ${formatTime(timeLeft)}
     </span>
-</div>
+    </div>
+    <button id="startbtn" type="button" onclick="startTimer()">Start Timer</button>
 
 `;
 
-//When window is open
-startTimer();
 
 function onTimesUp() {
     clearInterval(timerInterval);

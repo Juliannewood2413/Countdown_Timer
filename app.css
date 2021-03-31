@@ -1,3 +1,32 @@
+body {
+  background-image: url("./pokebkgrd.png");
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  color: whitesmoke;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  /* margin: auto; */
+}
+
+#startbtn {
+  display: flex;
+  margin: auto;
+  font-size: 25px;
+  border-radius: 8px;
+}
+
+.base-timer {
+  display: flex;
+  margin: auto;
+}
+
 .base-timer {
   position: relative;
   height: 400px;
@@ -16,6 +45,7 @@
 
 .base-timer__label {
   position: absolute;
+  color: whitesmoke;
   width: 400px;
   height: 400px;
   top: 0;

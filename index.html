@@ -12,7 +12,63 @@
     <title>Countdown Timer</title>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <h1>Liam's Countdown Timer</h1>
+        <div class="base-timer">
+             <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+             <g class="base-timer__circle">
+                <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+                <path 
+                 id="base-timer-path-remaining"
+                 stroke-dasharray="283"
+                 class="base-timer__path-remaining ${remainingPathColor}"
+                 d="
+                M 50,50
+                 m -45, 0
+                 a 45,45 0 1, 0 90, 0
+                 a 45,45 0 1, 0 -90, 0
+                 "
+                 ></path>
+             </g>
+             </svg>
+        
+             <span id="base-timer-label" class="base-timer__label">
+              <div class="controls">
+                   <label class="switch" for="status-toggle">
+                     <input checked type="checkbox" name="status-toggle" id="status-toggle" />
+                     <span class="slider"></span>
+                   </label>
+                   <div class="status">Status: <span id="status">Working</span></div>
+                   <div class="time">
+                     <div id="minutes">20</div>
+                     <div id="seconds">00</div>
+                   </div>
+                   <div class="buttons">
+                     <button aria-label="play" id="play">
+                       <i class="fa fa-play" aria-hidden="true"></i>
+                     </button>
+                     <button aria-label="pause" id="pause">
+                       <i class="fa fa-pause" aria-hidden="true"></i>
+                     </button>
+                     <button aria-label="stop" id="stop">
+                       <i class="fa fa-stop" aria-hidden="true"></i>
+                     </button>
+                   </div>
+                 </div>
+                 </span>
+                 </div>
+                   <div class="inputs">
+                 <div class="input-group">
+                   <label for="work-minutes">Minutes of Work</label>
+                   <input type="number" name="work" id="work-minutes" value="20" />
+                 </div>
+                 <div class="input-group">
+                   <label for="rest-minutes">Minutes of Rest</label>
+                   <input type="number" name="rest" id="rest-minutes" value="5" />
+                 </div>
+            </div>
+        
+    </div>
     
     
     <script src="./app.js"></script>

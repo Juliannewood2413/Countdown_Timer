@@ -1,3 +1,21 @@
+//Countdown Timer//
+
+let statusSpan = document.querySelector("#status");
+let statusToggle = document.querySelector("#status-toggle");
+let playButton = document.querySelector("#play");
+let pauseButton = document.querySelector("#pause");
+let stopButton = document.querySelector("#stop");
+let minutesDisplay = document.querySelector("#minutes");
+let secondsDisplay = document.querySelector("#seconds");
+let workMinutesInput = document.querySelector("#work-minutes");
+let restMinutesInput = document.querySelector("#rest-minutes");
+let inputs = document.querySelector(".inputs")
+
+let totalSeconds = 0;
+let secondsElapsed = 0;
+let status = "Working";
+let interval;
+
 const FULL_DASH_ARRAY = 283;
 const warning_threshold = 10;
 const alert_threshold = 5;
@@ -23,102 +41,132 @@ let timerInterval = null;
 
 let remainingPathColor = Color_codes.info.color;
 
+function getFormattedMinutes() {
+  //
+  let secondsLeft = totalSeconds - secondsElapsed;
 
-//Target app element to create HTML//
+  let minutesLeft = Math.floor(secondsLeft / 60);
 
-document.getElementById("app").innerHTML =
-`
-<h1>Liam's Countdown Timer</h1>
-<div class="base-timer">
-    <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <g class="base-timer__circle">
-        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-        <path 
-        id="base-timer-path-remaining"
-        stroke-dasharray="283"
-        class="base-timer__path-remaining ${remainingPathColor}"
-        d="
-        M 50,50
-        m -45, 0
-        a 45,45 0 1, 0 90, 0
-        a 45,45 0 1, 0 -90, 0
-        "
-        ></path>
-    </g>
-    </svg>
+  let formattedMinutes;
 
-    <span id="base-timer-label" class="base-timer__label">
-     <div class="controls">
-          <label class="switch" for="status-toggle">
-            <input checked type="checkbox" name="status-toggle" id="status-toggle" />
-            <span class="slider"></span>
-          </label>
-          <div class="status">Status: <span id="status">Working</span></div>
-          <div class="time">
-            <div id="minutes">20</div>
-            <div id="seconds">00</div>
-          </div>
-          <div class="buttons">
-            <button aria-label="play" id="play">
-              <i class="fa fa-play" aria-hidden="true"></i>
-            </button>
-            <button aria-label="pause" id="pause">
-              <i class="fa fa-pause" aria-hidden="true"></i>
-            </button>
-            <button aria-label="stop" id="stop">
-              <i class="fa fa-stop" aria-hidden="true"></i>
-            </button>
-          </div>
-        </div>
-        </span>
-        </div>
-          <div class="inputs">
-        <div class="input-group">
-          <label for="work-minutes">Minutes of Work</label>
-          <input type="number" name="work" id="work-minutes" value="20" />
-        </div>
-        <div class="input-group">
-          <label for="rest-minutes">Minutes of Rest</label>
-          <input type="number" name="rest" id="rest-minutes" value="5" />
-        </div>
-      </div>
-        `;
-        
-        // <button id="startbtn" type="button" onclick="startTimer()">Start Timer</button>
-        // ${formatTime(timeLeft)}
+  if (minutesLeft < 10) {
+    formattedMinutes = "0" + minutesLeft;
+  } else {
+    formattedMinutes = minutesLeft;
+  }
 
-function onTimesUp() {
-    clearInterval(timerInterval);
+  return formattedMinutes;
 }
+
+function getFormattedSeconds() {
+  var secondsLeft = (totalSeconds - secondsElapsed) % 60;
+
+  var formattedSeconds;
+
+  if (secondsLeft < 10) {
+    formattedSeconds = "0" + secondsLeft;
+  } else {
+    formattedSeconds = secondsLeft;
+  }
+
+  return formattedSeconds;
+}
+
+function setTime() {
+    var minutes;
+          
+    if (status === "Working") {
+     minutes = workMinutesInput.value.trim();
+    } else {
+     minutes = restMinutesInput.value.trim();
+    }
+          
+    clearInterval(interval);
+    totalSeconds = minutes * 60;
+}
+
+function renderTime() {
+    minutesDisplay.textContent = getFormattedMinutes();
+    secondsDisplay.textContent = getFormattedSeconds();
+  
+    if (secondsElapsed >= totalSeconds) {
+      if (status === "Working") {
+        alert("Time for a break!");
+      } else {
+        alert("Time to get back to work!");
+      }
+  
+      stopTimer();
+    }
+  }
 
 function startTimer() {
-    timerInterval = setInterval(() => {
-        timePassed = timePassed += 1;
-        timeLeft = Time_limit - timePassed;
+  setTime();
+//   timerInterval = setInterval(() => {
+//     timePassed = timePassed += 1;
+//     timeLeft = Time_limit - timePassed;
 
-        document.getElementById("base-timer-label").innerHTML= formatTime(timeLeft)
+//     document.getElementById("base-timer-label").innerHTML= formatTime(timeLeft)
 
-        setCircleDashArray();
-        setRemainingPathColor(timeLeft);
+//     setCircleDashArray();
+//     setRemainingPathColor(timeLeft);
 
-        if (timeLeft === 0){
-            onTimesUp();
-        }
+//     if (timeLeft === 0){
+//         onTimesUp();
+//     }
 
-    }, 1000)
+// }, 1000)
+
+  if (totalSeconds > 0) {
+      interval = setInterval(function() {
+        secondsElapsed++;
+
+        renderTime();
+      }, 1000);
+  } else {
+    alert("Minutes of work/rest must be greater than 0.")
+  }
 }
 
-function formatTime(time) {
-    const minutes = Math.floor(time / 60);
+function pauseTimer() {
+    clearInterval(interval);
+    renderTime();
+}
 
-    let seconds = time % 60;
+function stopTimer() {
+    secondsElapsed = 0;
+    setTime();
+    renderTime();
+}
 
-    if(seconds < 10) {
-        seconds = `0${seconds}`;
+function toggleStatus(event) {
+    var checked = event.target.checked;
+  
+    if (checked) {
+      status = "Working";
+    } else {
+      status = "Resting";
     }
-
-    return `${minutes} : ${seconds}`;
+  
+    statusSpan.textContent = status;
+  
+    secondsElapsed = 0;
+    setTime();
+    renderTime();
 }
+
+playButton.addEventListener("click", startTimer);
+pauseButton.addEventListener("click", pauseTimer);
+stopButton.addEventListener("click", stopTimer);
+statusToggle.addEventListener("change", toggleStatus);
+// inputs.addEventListener("change", setTimePreferences);
+// inputs.addEventListener("keyup", setTimePreferences);
+        
+
+// function onTimesUp() {
+//     clearInterval(timerInterval);
+// }
+
 
 function setRemainingPathColor(timeLeft) {
     const {alert, warning, info} = Color_codes;
@@ -146,3 +194,21 @@ function setCircleDashArray() {
     ).toFixed(0)} 283`;
     document.getElementById("base-timer-path-remaining").setAttribute("stroke-dasharray", circleDashArray);
 }
+
+
+// function startTimer() {
+//     timerInterval = setInterval(() => {
+//         timePassed = timePassed += 1;
+//         timeLeft = Time_limit - timePassed;
+
+//         document.getElementById("base-timer-label").innerHTML= formatTime(timeLeft)
+
+//         setCircleDashArray();
+//         setRemainingPathColor(timeLeft);
+
+//         if (timeLeft === 0){
+//             onTimesUp();
+//         }
+
+//     }, 1000)
+// }

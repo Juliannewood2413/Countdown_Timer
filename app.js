@@ -14,32 +14,9 @@ let inputs = document.querySelector(".inputs")
 let totalSeconds = 0;
 let secondsElapsed = 0;
 let status = "Working";
+const timerSound = new Audio('end-sound.mp3')
 let interval;
 
-const FULL_DASH_ARRAY = 283;
-const warning_threshold = 10;
-const alert_threshold = 5;
-
-const Color_codes = {
-    info: {
-        color: 'green'
-    },
-    warning: {
-        color: "orange",
-        threshold: warning_threshold
-    },
-    alert: {
-        color: "red",
-        threshold: alert_threshold
-    }
-};
-const Time_limit = 60;
-let timePassed = 0;
-let timeLeft = Time_limit;
-
-let timerInterval = null;
-
-let remainingPathColor = Color_codes.info.color;
 
 function getFormattedMinutes() {
   //
@@ -90,32 +67,13 @@ function renderTime() {
     secondsDisplay.textContent = getFormattedSeconds();
   
     if (secondsElapsed >= totalSeconds) {
-      if (status === "Working") {
-        alert("Time for a break!");
-      } else {
-        alert("Time to get back to work!");
-      }
-  
+      timerSound.play();
       stopTimer();
     }
   }
 
 function startTimer() {
   setTime();
-//   timerInterval = setInterval(() => {
-//     timePassed = timePassed += 1;
-//     timeLeft = Time_limit - timePassed;
-
-//     document.getElementById("base-timer-label").innerHTML= formatTime(timeLeft)
-
-//     setCircleDashArray();
-//     setRemainingPathColor(timeLeft);
-
-//     if (timeLeft === 0){
-//         onTimesUp();
-//     }
-
-// }, 1000)
 
   if (totalSeconds > 0) {
       interval = setInterval(function() {
@@ -138,6 +96,10 @@ function stopTimer() {
     setTime();
     renderTime();
 }
+
+// function stopAudio() {
+//   timerSound.pause();
+// }
 
 function toggleStatus(event) {
     var checked = event.target.checked;
@@ -162,11 +124,6 @@ statusToggle.addEventListener("change", toggleStatus);
 // inputs.addEventListener("change", setTimePreferences);
 // inputs.addEventListener("keyup", setTimePreferences);
         
-
-// function onTimesUp() {
-//     clearInterval(timerInterval);
-// }
-
 
 function setRemainingPathColor(timeLeft) {
     const {alert, warning, info} = Color_codes;
@@ -195,6 +152,8 @@ function setCircleDashArray() {
     document.getElementById("base-timer-path-remaining").setAttribute("stroke-dasharray", circleDashArray);
 }
 
+//Future dev - add animation for time elapsed//
+
 
 // function startTimer() {
 //     timerInterval = setInterval(() => {
@@ -211,4 +170,30 @@ function setCircleDashArray() {
 //         }
 
 //     }, 1000)
+
 // }
+
+// const FULL_DASH_ARRAY = 283;
+// const warning_threshold = 10;
+// const alert_threshold = 5;
+
+// const Color_codes = {
+//     info: {
+//         color: 'green'
+//     },
+//     warning: {
+//         color: "orange",
+//         threshold: warning_threshold
+//     },
+//     alert: {
+//         color: "red",
+//         threshold: alert_threshold
+//     }
+// };
+// const Time_limit = 60;
+// let timePassed = 0;
+// let timeLeft = Time_limit;
+
+// let timerInterval = null;
+
+// let remainingPathColor = Color_codes.info.color;
